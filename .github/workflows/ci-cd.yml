@@ -1,0 +1,65 @@
+name: ProjectFlow MERN CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  backend-checks:
+    name: Backend API Validation
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:7-jammy
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: backend/package.json
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: Validate Syntax & Seed Execution
+        working-directory: ./backend
+        env:
+          MONGO_URI: mongodb://localhost:27017/projectflow_test
+          JWT_SECRET: ci-test-secret-key
+        run: |
+          node -c src/server.js
+          node src/seeders/seed.js
+
+  frontend-build:
+    name: Frontend Build Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package.json
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Production Bundle Build
+        working-directory: ./frontend
+        run: npm run build

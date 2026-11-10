@@ -1,0 +1,11 @@
+services:
+  # MongoDB Database
+  mongo:
+    image: mongo:7-jammy
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_dev_data:/data/db
+
+volumes:
+  mongo_dev_data:

@@ -1,0 +1,52 @@
+services:
+  # MongoDB Database
+  mongo:
+    image: mongo:7-jammy
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - projectflow-net
+
+  # Express.js Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/projectflow
+      - JWT_SECRET=super-secret-jwt-key-for-projectflow-production
+      - JWT_EXPIRES_IN=7d
+      - STRIPE_SECRET_KEY=sk_test_mockStripeKey
+      - CLIENT_URL=http://localhost:3000
+    depends_on:
+      - mongo
+    networks:
+      - projectflow-net
+
+  # React Frontend Single Page Application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - projectflow-net
+
+volumes:
+  mongo_data:
+
+networks:
+  projectflow-net:
+    driver: bridge

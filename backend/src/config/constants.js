@@ -1,0 +1,62 @@
+module.exports = {
+  ROLES: {
+    OWNER: 'owner',
+    ADMIN: 'admin',
+    MEMBER: 'member',
+    VIEWER: 'viewer',
+  },
+  PLANS: {
+    FREE: 'free',
+    STARTER: 'starter',
+    PROFESSIONAL: 'professional',
+    ENTERPRISE: 'enterprise',
+  },
+  PLAN_LIMITS: {
+    free: { maxMembers: 5, maxProjects: 3, maxStorageMb: 500 },
+    starter: { maxMembers: 15, maxProjects: 10, maxStorageMb: 5000 },
+    professional: { maxMembers: 50, maxProjects: 50, maxStorageMb: 50000 },
+    enterprise: { maxMembers: 1000, maxProjects: 1000, maxStorageMb: 500000 },
+  },
+  ISSUE_TYPES: {
+    STORY: 'story',
+    TASK: 'task',
+    BUG: 'bug',
+    EPIC: 'epic',
+    SUBTASK: 'subtask',
+  },
+  ISSUE_PRIORITIES: {
+    CRITICAL: 'critical',
+    HIGH: 'high',
+    MEDIUM: 'medium',
+    LOW: 'low',
+    TRIVIAL: 'trivial',
+  },
+  ISSUE_STATUSES: {
+    TODO: 'todo',
+    IN_PROGRESS: 'in_progress',
+    IN_REVIEW: 'in_review',
+    DONE: 'done',
+  },
+  SPRINT_STATUSES: {
+    PLANNING: 'planning',
+    ACTIVE: 'active',
+    COMPLETED: 'completed',
+    CANCELLED: 'cancelled',
+  },
+  AUDIT_ACTIONS: {
+    CREATE: 'create',
+    UPDATE: 'update',
+    DELETE: 'delete',
+    MOVE: 'move',
+    ASSIGN: 'assign',
+    COMMENT: 'comment',
+    UPLOAD: 'upload',
+    INVITE: 'invite',
+    REMOVE_MEMBER: 'remove_member',
+    ROLE_CHANGE: 'role_change',
+    START_SPRINT: 'start_sprint',
+    COMPLETE_SPRINT: 'complete_sprint',
+    BILLING_UPGRADE: 'billing_upgrade',
+  },
+};
+
